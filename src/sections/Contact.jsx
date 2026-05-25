@@ -33,19 +33,19 @@ const Contact = () => {
             <input
               type="text"
               placeholder="Your Name"
-              className="py-4 rounded-2xl bg-primary hover:shadow-glow transition duration-300 font-semibold hover:scale-105 active:scale-95"
+              className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary/60 focus:outline-none focus:ring-1 focus:ring-primary/40 text-white placeholder-gray-500 transition duration-300"
             />
 
             <input
               type="email"
               placeholder="Your Email"
-              className="py-4 rounded-2xl bg-primary hover:shadow-glow transition duration-300 font-semibold hover:scale-105 active:scale-95"
+              className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary/60 focus:outline-none focus:ring-1 focus:ring-primary/40 text-white placeholder-gray-500 transition duration-300"
             />
 
             <textarea
               rows="5"
               placeholder="Tell me about your project or opportunity..."
-              className="py-4 rounded-2xl bg-primary hover:shadow-glow transition duration-300 font-semibold hover:scale-105 active:scale-95"
+              className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary/60 focus:outline-none focus:ring-1 focus:ring-primary/40 text-white placeholder-gray-500 transition duration-300 resize-none"
             />
 
             <button
