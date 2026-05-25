@@ -65,22 +65,11 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right — 3D avatar */}
-          <div ref={avatarRef} className="opacity-0 hidden md:flex items-center justify-center">
-            <div className="relative w-full" style={{ maxWidth: "420px", height: "460px" }}>
-              {/* Glow rings behind avatar */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-64 h-64 rounded-full border border-pink/10 animate-pulse" />
-                <div className="absolute w-80 h-80 rounded-full border border-violet/5" />
-              </div>
-              <Suspense fallback={
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-pink animate-ping" />
-                </div>
-              }>
-                <Avatar3D />
-              </Suspense>
-            </div>
+          {/* Right — 3D element, no border */}
+          <div ref={avatarRef} className="opacity-0 hidden md:block" style={{ height: "460px" }}>
+            <Suspense fallback={null}>
+              <Avatar3D />
+            </Suspense>
           </div>
 
         </div>
