@@ -12,7 +12,8 @@ const marqueeItems = [
 ];
 
 const stats = [
-  { value: "2+",  label: "Years building" },
+  { value: "3+",  label: "Years building" },
+  { value: "10+", label: "Projects shipped" },
   { value: "4",   label: "AI-powered apps" },
 ];
 
@@ -68,7 +69,7 @@ const About = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="py-28 md:py-36 relative">
+    <section ref={sectionRef} id="about" className="section-wash py-28 md:py-36 relative">
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -77,7 +78,7 @@ const About = () => {
 
           {/* Left — label + bio */}
           <div>
-            <p className="label text-cream-dim mb-8">About</p>
+            <p className="label accent-text mb-8">About</p>
 
             <div ref={textRef} className="opacity-0">
               <p className="text-cream/90 text-xl md:text-2xl leading-relaxed font-light" style={{ letterSpacing: "-0.01em" }}>

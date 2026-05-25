@@ -55,12 +55,12 @@ const Projects = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="projects" className="relative bg-bg">
+    <section ref={sectionRef} id="projects" className="section-wash relative bg-bg">
 
       {/* Sticky header — visible while pinned */}
       <div className="h-screen flex flex-col justify-between px-6 md:px-12 py-12 pointer-events-none absolute inset-0 z-10">
         <div ref={headingRef} className="opacity-0 pointer-events-auto">
-          <p className="label text-cream-dim mb-4">Featured Work</p>
+          <p className="label accent-text mb-4">Featured Work</p>
           <h2 className="heading-lg text-cream">Projects</h2>
         </div>
         <p className="label text-muted hidden md:block">

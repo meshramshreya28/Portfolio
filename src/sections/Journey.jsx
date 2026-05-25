@@ -78,11 +78,11 @@ const Journey = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="journey" className="py-28 md:py-36 relative">
+    <section ref={sectionRef} id="journey" className="section-wash py-28 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
         <div ref={headingRef} className="opacity-0 mb-20">
-          <p className="label text-cream-dim mb-4">Experience</p>
+          <p className="label accent-text mb-4">Experience</p>
           <h2 className="heading-lg text-cream">Journey</h2>
         </div>
 

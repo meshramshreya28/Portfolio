@@ -6,7 +6,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 gsap.registerPlugin(ScrollTrigger);
 
 const socials = [
-  { icon: <FaGithub />,   label: "GitHub",   href: "https://github.com/meshramshreya28" },
+  { icon: <FaGithub />,   label: "GitHub",   href: "https://github.com/meshramshreya28-code" },
   { icon: <FaLinkedin />, label: "LinkedIn",  href: "https://www.linkedin.com/in/shreya-meshram28/" },
   { icon: <FaEnvelope />, label: "Email",     href: "mailto:meshramshreya28@gmail.com" },
 ];
@@ -45,12 +45,12 @@ const Contact = () => {
   };
 
   return (
-    <section ref={sectionRef} id="contact" className="py-28 md:py-36 relative">
+    <section ref={sectionRef} id="contact" className="section-wash py-28 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
         {/* Heading */}
         <div ref={headingRef} className="opacity-0 mb-20">
-          <p className="label text-cream-dim mb-4">Get in touch</p>
+          <p className="label accent-text mb-4">Get in touch</p>
           <h2 className="heading-lg text-cream leading-none">
             Let's build<br />
             <span className="text-muted">something great.</span>
