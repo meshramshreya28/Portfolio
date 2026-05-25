@@ -1,38 +1,41 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Loader = () => {
   return (
-    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-dark">
-      <div className="text-center">
-        {/* Animated Logo */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.7 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{
-            duration: 1,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          className="text-5xl md:text-7xl font-black tracking-widest text-primary"
+    <motion.div
+      className="fixed inset-0 z-[99999] flex items-center justify-center bg-bg"
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+    >
+      <div className="flex flex-col items-center gap-6">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="label text-cream-dim"
         >
-          PORTFOLIO
-        </motion.h1>
+          Shreya Meshram
+        </motion.p>
 
-        {/* Glow Bar */}
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: "220px" }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-          }}
-          className="h-1 bg-primary rounded-full mx-auto mt-8 shadow-glow"
-        />
+        <div className="w-48 h-[1px] bg-dim overflow-hidden">
+          <motion.div
+            className="h-full bg-cream"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 2.2, ease: [0.76, 0, 0.24, 1] }}
+          />
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="label text-muted"
+        >
+          Loading
+        </motion.p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

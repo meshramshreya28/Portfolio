@@ -1,77 +1,91 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  SiPython,
-  SiReact,
-  SiJavascript,
-  SiTailwindcss,
-  SiFlask,
-  SiFigma,
-  SiGooglegemini,
-  SiOpenai,
-  SiHtml5,
-  SiGithub,
+  SiPython, SiReact, SiJavascript, SiTailwindcss, SiFlask,
+  SiFigma, SiGooglegemini, SiOpenai, SiHtml5, SiGithub,
+  SiNodedotjs, SiMongodb,
 } from "react-icons/si";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const skills = [
-  { name: "Python",           icon: <SiPython />,       color: "#3B82F6" },
   { name: "React",            icon: <SiReact />,        color: "#06B6D4" },
+  { name: "Python",           icon: <SiPython />,       color: "#3B82F6" },
   { name: "JavaScript",       icon: <SiJavascript />,   color: "#EAB308" },
   { name: "Tailwind CSS",     icon: <SiTailwindcss />,  color: "#06B6D4" },
-  { name: "Flask",            icon: <SiFlask />,        color: "#A855F7" },
+  { name: "Flask",            icon: <SiFlask />,        color: "#ede8df" },
+  { name: "Node.js",          icon: <SiNodedotjs />,    color: "#22C55E" },
+  { name: "MongoDB",          icon: <SiMongodb />,      color: "#22C55E" },
+  { name: "Gemini API",       icon: <SiGooglegemini />, color: "#A78BFA" },
+  { name: "AI Integration",   icon: <SiOpenai />,       color: "#ede8df" },
   { name: "UI/UX Design",     icon: <SiFigma />,        color: "#EC4899" },
-  { name: "Gemini API",       icon: <SiGooglegemini />, color: "#7C3AED" },
-  { name: "AI Integration",   icon: <SiOpenai />,       color: "#10B981" },
-  { name: "Responsive Design", icon: <SiHtml5 />,        color: "#F97316" },
-  { name: "Git/GitHub",       icon: <SiGithub />,       color: "#E2E8F0" },
+  { name: "Responsive Design",icon: <SiHtml5 />,        color: "#F97316" },
+  { name: "Git/GitHub",       icon: <SiGithub />,       color: "#ede8df" },
 ];
 
 const Skills = () => {
+  const sectionRef = useRef(null);
+  const gridRef    = useRef(null);
+  const headingRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0, duration: 1, ease: "expo.out",
+          scrollTrigger: { trigger: headingRef.current, start: "top 85%" },
+        }
+      );
+
+      gsap.fromTo(
+        gridRef.current.children,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0, duration: 0.7, stagger: 0.06, ease: "expo.out",
+          scrollTrigger: { trigger: gridRef.current, start: "top 80%" },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section
-      id="skills"
-      className="min-h-screen px-6 py-20 md:py-24 flex items-center"
-    >
-      <div className="max-w-6xl mx-auto w-full">
-        {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-5xl font-bold text-center mb-16"
+    <section ref={sectionRef} id="skills" className="py-28 md:py-36 relative">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+
+        <div ref={headingRef} className="opacity-0 mb-16">
+          <p className="label text-cream-dim mb-4">Tech Stack</p>
+          <h2 className="heading-lg text-cream">Skills</h2>
+        </div>
+
+        <div
+          ref={gridRef}
+          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-px border border-border bg-border"
         >
-          Skills & Technologies
-        </motion.h2>
-
-        {/* Skill Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.08 }}
-              whileHover={{ y: -10, scale: 1.05 }}
-              className="group relative p-6 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden cursor-pointer flex flex-col items-center gap-4"
+          {skills.map((skill, i) => (
+            <div
+              key={i}
+              className="bg-bg flex flex-col items-center justify-center gap-3 p-6 group hover:bg-surface transition-colors duration-300"
             >
-              {/* Glow Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-primary/20 to-secondary/20 blur-2xl" />
-
-              {/* Icon */}
-              <div
-                className="relative z-10 text-4xl transition duration-300"
+              <span
+                className="text-2xl transition-transform duration-300 group-hover:scale-110"
                 style={{ color: skill.color }}
               >
                 {skill.icon}
-              </div>
-
-              {/* Name */}
-              <h3 className="relative z-10 text-sm font-semibold text-center group-hover:text-primary transition leading-tight">
+              </span>
+              <span className="label text-muted group-hover:text-cream-dim transition-colors duration-300 text-center">
                 {skill.name}
-              </h3>
-            </motion.div>
+              </span>
+            </div>
           ))}
         </div>
       </div>
+
+      <div className="hr absolute bottom-0 left-0" />
     </section>
   );
 };

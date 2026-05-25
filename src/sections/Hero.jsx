@@ -1,64 +1,143 @@
-import { motion } from "framer-motion";
-import { TypeAnimation } from "react-type-animation";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 const Hero = () => {
+  const containerRef = useRef(null);
+  const lineRefs     = useRef([]);
+  const metaRef      = useRef(null);
+  const btnRef       = useRef(null);
+  const scrollRef    = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+
+      tl.fromTo(
+        lineRefs.current,
+        { yPercent: 110, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 1.2, stagger: 0.12 }
+      )
+      .fromTo(
+        metaRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9 },
+        "-=0.6"
+      )
+      .fromTo(
+        btnRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9 },
+        "-=0.7"
+      )
+      .fromTo(
+        scrollRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8 },
+        "-=0.4"
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const addLineRef = (el) => {
+    if (el && !lineRefs.current.includes(el)) lineRefs.current.push(el);
+  };
+
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden px-6">
-      {/* Background Glow */}
-      <div className="absolute w-[500px] h-[500px] bg-primary/30 blur-[120px] rounded-full top-[-100px]" />
+    <section
+      ref={containerRef}
+      className="min-h-screen flex flex-col justify-between px-6 md:px-12 pt-36 pb-12 relative"
+    >
+      {/* Top label row */}
+      <div ref={metaRef} className="flex items-center justify-between opacity-0">
+        <span className="label text-cream-dim">Portfolio — 2026</span>
+        <span className="label text-cream-dim">AI · Web · Design</span>
+      </div>
 
-      <div className="text-center z-10 floating">
-
-        {/* Small label above */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-sm font-semibold tracking-[0.3em] text-primary uppercase mb-4"
-        >
-          Portfolio
-        </motion.p>
-
-        {/* Name — the real headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-wide"
-        >
-          Shreya{" "}
-          <span className="text-primary">Meshram</span>
-        </motion.h1>
-
-        <div className="mt-6 text-gray-300 text-xl md:text-2xl font-semibold">
-          <TypeAnimation
-            sequence={[
-              "Building AI-Powered Web Applications",
-              2000,
-              "Interactive Developer Experiences",
-              2000,
-            ]}
-            speed={50}
-            repeat={Infinity}
-          />
+      {/* Big name */}
+      <div className="flex-1 flex items-center">
+        <div className="w-full">
+          <div className="overflow-hidden mb-2">
+            <h1
+              ref={addLineRef}
+              className="heading-xl text-cream opacity-0"
+            >
+              Shreya
+            </h1>
+          </div>
+          <div className="overflow-hidden mb-2">
+            <h1
+              ref={addLineRef}
+              className="heading-xl text-cream opacity-0"
+            >
+              Meshram
+            </h1>
+          </div>
+          <div className="overflow-hidden">
+            <p
+              ref={addLineRef}
+              className="heading-xl text-muted opacity-0"
+              style={{ fontSize: "clamp(1.4rem, 3.5vw, 3rem)", letterSpacing: "-0.02em", lineHeight: 1.3 }}
+            >
+              AI-Powered Web Developer
+            </p>
+          </div>
         </div>
+      </div>
 
-        <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+      {/* Bottom row */}
+      <div ref={btnRef} className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 opacity-0">
+        <p className="text-muted max-w-xs text-sm leading-relaxed">
+          Building futuristic interactive experiences with React, Python & AI integration.
+        </p>
+
+        <div className="flex gap-4">
           <a
             href="#projects"
-            className="px-8 py-3 rounded-full bg-primary hover:shadow-glow transition duration-300 hover:scale-105 active:scale-95"
+            className="btn-magnetic group px-7 py-3 rounded-full border border-cream/20 text-cream text-sm font-medium hover:border-cream/60 transition-colors duration-300"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              e.currentTarget.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translate(0,0)";
+            }}
           >
-            View Projects
+            <span className="btn-inner">View Work</span>
           </a>
 
           <a
             href="#contact"
-            className="px-8 py-3 rounded-full border border-primary hover:bg-primary/20 transition hover:scale-105 active:scale-95"
+            className="btn-magnetic group px-7 py-3 rounded-full bg-cream text-bg text-sm font-semibold hover:bg-cream/90 transition-colors duration-300"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              e.currentTarget.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translate(0,0)";
+            }}
           >
-            Contact Me
+            <span className="btn-inner">Get in Touch</span>
           </a>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <div
+        ref={scrollRef}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
+      >
+        <span className="label text-muted" style={{ fontSize: "0.6rem" }}>Scroll</span>
+        <div className="w-[1px] h-10 bg-gradient-to-b from-muted to-transparent" />
+      </div>
+
+      {/* Divider */}
+      <div className="hr absolute bottom-0 left-0" />
     </section>
   );
 };

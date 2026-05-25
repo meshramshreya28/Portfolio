@@ -1,75 +1,146 @@
-import { motion } from "framer-motion";
-import { FaCode, FaBrain, FaPalette } from "react-icons/fa";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const cards = [
-  {
-    icon: <FaBrain />,
-    title: "AI Enthusiast",
-    desc: "Passionate about AI-powered web applications and smart developer tools.",
-  },
-  {
-    icon: <FaCode />,
-    title: "Web Developer",
-    desc: "Building modern responsive interfaces with React, Tailwind, and Flask.",
-  },
-  {
-    icon: <FaPalette />,
-    title: "UI/UX Designer",
-    desc: "Creating futuristic user experiences with premium interactions.",
-  },
+gsap.registerPlugin(ScrollTrigger);
+
+const marqueeItems = [
+  "React", "Python", "Flask", "Tailwind CSS", "Gemini API",
+  "AI Integration", "UI/UX Design", "Full-Stack", "FastAPI", "Git",
+  "React", "Python", "Flask", "Tailwind CSS", "Gemini API",
+  "AI Integration", "UI/UX Design", "Full-Stack", "FastAPI", "Git",
+];
+
+const stats = [
+  { value: "2+",  label: "Years building" },
+  { value: "4",   label: "AI-powered apps" },
 ];
 
 const About = () => {
+  const sectionRef  = useRef(null);
+  const textRef     = useRef(null);
+  const statsRef    = useRef(null);
+  const marqueeRef  = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      /* Paragraph reveal */
+      gsap.fromTo(
+        textRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0, duration: 1.1, ease: "expo.out",
+          scrollTrigger: { trigger: textRef.current, start: "top 80%" },
+        }
+      );
+
+      /* Stats stagger */
+      gsap.fromTo(
+        statsRef.current.children,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: "expo.out",
+          scrollTrigger: { trigger: statsRef.current, start: "top 80%" },
+        }
+      );
+
+      /* Marquee scroll-speed boost */
+      let currentX = 0;
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: (self) => {
+          currentX -= self.getVelocity() * 0.003;
+          gsap.to(marqueeRef.current, {
+            x: currentX % (marqueeRef.current.scrollWidth / 2),
+            duration: 0.5,
+            ease: "none",
+            overwrite: true,
+          });
+        },
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section
-      id="about"
-      className="min-h-screen flex items-center justify-center px-6 py-20 md:py-24"
-    >
-      <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-5xl font-bold text-center mb-16"
-        >
-          About Me
-        </motion.h2>
+    <section ref={sectionRef} id="about" className="py-28 md:py-36 relative">
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-center text-gray-300 max-w-3xl mx-auto text-lg leading-relaxed mb-16"
-        >
-          I am a B.Tech CSE student passionate about building modern
-          AI-powered web applications, interactive UI experiences,
-          and developer-focused products.
-        </motion.p>
+      {/* Main content */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {cards.map((card, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 80 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-              className="p-8 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 hover:border-primary/50 hover:shadow-glow transition duration-500"
-            >
-              <div className="text-4xl text-primary mb-6">
-                {card.icon}
-              </div>
+        <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
 
-              <h3 className="text-2xl font-semibold mb-4">
-                {card.title}
-              </h3>
+          {/* Left — label + bio */}
+          <div>
+            <p className="label text-cream-dim mb-8">About</p>
 
-              <p className="text-gray-400 leading-relaxed">
-                {card.desc}
+            <div ref={textRef} className="opacity-0">
+              <p className="text-cream/90 text-xl md:text-2xl leading-relaxed font-light" style={{ letterSpacing: "-0.01em" }}>
+                B.Tech CSE student passionate about building modern
+                AI-powered web applications, interactive UI experiences,
+                and developer-focused products.
               </p>
-            </motion.div>
+
+              <p className="mt-6 text-muted text-base leading-relaxed">
+                I work at the intersection of design and engineering —
+                crafting interfaces that feel alive through careful
+                attention to motion, typography, and interaction detail.
+              </p>
+
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 mt-10 text-cream text-sm font-medium group"
+              >
+                <span className="underline underline-offset-4 decoration-cream/20 group-hover:decoration-cream transition-all duration-300">
+                  Let's work together
+                </span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right — stats */}
+          <div
+            ref={statsRef}
+            className="grid grid-cols-3 md:grid-cols-1 gap-6 md:gap-0 md:divide-y md:divide-border pt-0 md:pt-10"
+          >
+            {stats.map((s, i) => (
+              <div key={i} className="md:py-8 first:pt-0 last:pb-0">
+                <p
+                  className="text-cream font-bold mb-1"
+                  style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", letterSpacing: "-0.04em", lineHeight: 1 }}
+                >
+                  {s.value}
+                </p>
+                <p className="label text-muted">{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+
+      {/* Marquee strip */}
+      <div className="mt-24 border-y border-border py-5 overflow-hidden">
+        <div ref={marqueeRef} className="marquee-track">
+          {marqueeItems.map((item, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-8 px-4 whitespace-nowrap"
+            >
+              <span className="label text-cream-dim">{item}</span>
+              <span className="text-muted text-xs">✦</span>
+            </div>
           ))}
         </div>
       </div>
+
+      <div className="hr absolute bottom-0 left-0" />
     </section>
   );
 };
