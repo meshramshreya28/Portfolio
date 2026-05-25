@@ -8,7 +8,7 @@ import {
   SiFigma,
   SiGooglegemini,
   SiOpenai,
-  SiCss3,
+  SiHtml5,
   SiGithub,
 } from "react-icons/si";
 
@@ -21,7 +21,7 @@ const skills = [
   { name: "UI/UX Design",     icon: <SiFigma />,        color: "#EC4899" },
   { name: "Gemini API",       icon: <SiGooglegemini />, color: "#7C3AED" },
   { name: "AI Integration",   icon: <SiOpenai />,       color: "#10B981" },
-  { name: "Responsive Design",icon: <SiCss3 />,         color: "#3B82F6" },
+  { name: "Responsive Design", icon: <SiHtml5 />,        color: "#F97316" },
   { name: "Git/GitHub",       icon: <SiGithub />,       color: "#E2E8F0" },
 ];
 
