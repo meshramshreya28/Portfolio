@@ -5,10 +5,10 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FORMSPREE_URL = "https://formspree.io/f/YOUR_FORM_ID"; // 👈 replace this
+const FORMSPREE_URL = "https://formspree.io/f/maqklvbz";
 
 const socials = [
-  { icon: <FaGithub />,   label: "GitHub",   href: "https://github.com/meshramshreya28-code" },
+  { icon: <FaGithub />,   label: "GitHub",   href: "https://github.com/meshramshreya28" },
   { icon: <FaLinkedin />, label: "LinkedIn",  href: "https://www.linkedin.com/in/shreya-meshram28/" },
   { icon: <FaEnvelope />, label: "Email",     href: "mailto:meshramshreya28@gmail.com" },
 ];
@@ -19,7 +19,9 @@ const Contact = () => {
   const formRef    = useRef(null);
 
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
-  const [fields, setFields] = useState({ name: "", email: "", message: "" });
+  const [name,    setName]    = useState("");
+  const [email,   setEmail]   = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -37,9 +39,6 @@ const Contact = () => {
     return () => ctx.revert();
   }, []);
 
-  const handleChange = (e) =>
-    setFields({ ...fields, [e.target.name]: e.target.value });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending");
@@ -47,17 +46,23 @@ const Contact = () => {
     try {
       const res = await fetch(FORMSPREE_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(fields),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({ name, email, message }),
       });
 
       if (res.ok) {
         setStatus("sent");
-        setFields({ name: "", email: "", message: "" });
+        setName("");
+        setEmail("");
+        setMessage("");
       } else {
         setStatus("error");
       }
-    } catch {
+    } catch (err) {
+      console.error("Form error:", err);
       setStatus("error");
     }
   };
@@ -66,7 +71,6 @@ const Contact = () => {
     <section ref={sectionRef} id="contact" className="section-wash py-28 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
-        {/* Heading */}
         <div ref={headingRef} className="opacity-0 mb-20">
           <p className="label accent-text mb-4">Get in touch</p>
           <h2 className="heading-lg text-cream leading-none">
@@ -82,7 +86,7 @@ const Contact = () => {
             {status === "sent" ? (
               <div className="flex flex-col gap-4 py-12">
                 <p className="heading-md text-cream">Message sent ✦</p>
-                <p className="text-muted text-sm">Thanks for reaching out — I'll get back to you soon.</p>
+                <p className="text-muted text-sm">Thanks for reaching out — I'll reply soon!</p>
                 <button
                   onClick={() => setStatus("idle")}
                   className="label text-cream-dim hover:text-cream transition-colors mt-4 text-left"
@@ -97,10 +101,9 @@ const Contact = () => {
                   <label className="label text-muted">Name</label>
                   <input
                     type="text"
-                    name="name"
                     required
-                    value={fields.name}
-                    onChange={handleChange}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="Your name"
                     className="w-full bg-transparent border-b border-border text-cream text-sm py-3 placeholder-muted focus:outline-none focus:border-cream-dim transition-colors duration-300"
                   />
@@ -110,10 +113,9 @@ const Contact = () => {
                   <label className="label text-muted">Email</label>
                   <input
                     type="email"
-                    name="email"
                     required
-                    value={fields.email}
-                    onChange={handleChange}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
                     className="w-full bg-transparent border-b border-border text-cream text-sm py-3 placeholder-muted focus:outline-none focus:border-cream-dim transition-colors duration-300"
                   />
@@ -122,29 +124,28 @@ const Contact = () => {
                 <div className="flex flex-col gap-2">
                   <label className="label text-muted">Message</label>
                   <textarea
-                    name="message"
                     required
                     rows="4"
-                    value={fields.message}
-                    onChange={handleChange}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                     placeholder="Tell me about your project..."
                     className="w-full bg-transparent border-b border-border text-cream text-sm py-3 placeholder-muted focus:outline-none focus:border-cream-dim transition-colors duration-300 resize-none"
                   />
                 </div>
 
                 {status === "error" && (
-                  <p className="text-xs text-red-400">
-                    Something went wrong. Please try emailing directly at meshramshreya28@gmail.com
+                  <p className="text-red-400 text-xs">
+                    Something went wrong. Email me directly at meshramshreya28@gmail.com
                   </p>
                 )}
 
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="btn-magnetic mt-4 self-start px-8 py-3 rounded-full bg-cream text-bg text-sm font-semibold hover:bg-cream/90 transition-all duration-300 disabled:opacity-50"
+                  className="btn-magnetic mt-4 self-start px-8 py-3 rounded-full bg-cream text-bg text-sm font-semibold hover:bg-cream/90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   onMouseMove={(e) => {
                     const r = e.currentTarget.getBoundingClientRect();
-                    e.currentTarget.style.transform = `translate(${(e.clientX-r.left-r.width/2)*0.25}px,${(e.clientY-r.top-r.height/2)*0.25}px)`;
+                    e.currentTarget.style.transform = `translate(${(e.clientX - r.left - r.width/2) * 0.25}px, ${(e.clientY - r.top - r.height/2) * 0.25}px)`;
                   }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = "translate(0,0)"; }}
                 >
@@ -157,7 +158,7 @@ const Contact = () => {
             )}
           </div>
 
-          {/* Right — info */}
+          {/* Right — socials */}
           <div className="flex flex-col justify-between gap-12">
             <p className="text-muted text-sm leading-relaxed max-w-sm">
               Open to freelance projects, full-time roles, and interesting collaborations.
