@@ -5,6 +5,8 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const FORMSPREE_URL = "https://formspree.io/f/maqklvbz";
+
 const socials = [
   { icon: <FaGithub />,   label: "GitHub",   href: "https://github.com/meshramshreya28" },
   { icon: <FaLinkedin />, label: "LinkedIn",  href: "https://www.linkedin.com/in/shreya-meshram28/" },
