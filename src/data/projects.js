@@ -40,7 +40,7 @@ export const projects = [
     description:
       "Modern full-stack job and placement management portal designed for students and recruiters",
     tech: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
-    live: "https://jobtidalplatform.netlify.app/",
+    live: "https://myjobtidalportal.netlify.app/",
     github: "https://github.com/meshramshreya28/jobtidal",
   },
 ];
