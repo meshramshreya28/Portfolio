@@ -12,8 +12,7 @@ const marqueeItems = [
 ];
 
 const stats = [
-  { value: "3+",  label: "Years building" },
-  { value: "10+", label: "Projects shipped" },
+  { value: "1+",  label: "Years building" },
   { value: "4",   label: "AI-powered apps" },
 ];
 
